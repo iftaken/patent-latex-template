@@ -1,205 +1,104 @@
-# 心河Paper学位论文 LaTeX 模板
+# 专利申请技术交底书 LaTeX 模板
 
-> 🎯 **专为心河Paper平台优化的 LaTeX 论文模板**
+一个用于撰写专利申请技术交底书的 LaTeX 模板，基于 ctexbook 文档类，支持中文排版，标题使用楷体。
 
-## 📋 简介
-
-这是心河Paper官方推荐的学位论文 LaTeX 模板，符合国内高校学位论文的常见格式规范。
-
-使用本模板编写的论文，在 [**心河Paper平台**](https://paper.huimengxinhe.com) 可获得最佳的在线预览支持。
-
----
-
-## 📁 文件结构规范
-
-使用本模板时，请确保包含以下**必需文件**：
+## 项目结构
 
 ```
-xinhe-thesis/
-├── main.cls              # 文档类文件（模板核心，必需）
-├── main.tex              # 主文件（必需）
-├── references.bib        # 参考文献数据库（必需）
-├── main.pdf              # 编译后的PDF（用于预览模板效果）
-├── .latexmkrc            # latexmk 编译配置
-├── README.md             # 本文件
-├── chapters/             # 章节文件夹
-│   ├── abstract.tex      # 中英文摘要
-│   ├── chapter1.tex      # 第一章：绪论
-│   ├── chapter2.tex      # 第二章
-│   ├── conclusion.tex    # 结论与展望
-│   ├── appendix.tex      # 附录
-│   └── acknowledgement.tex # 致谢
-└── Fig/                  # 图片文件夹（统一存放所有图片素材）
+.
+├── main.tex              # 主文档文件
+├── main.cls              # 文档类定义（含格式设置）
+├── references.bib        # 参考文献数据库（可选）
+├── figture/              # 图片文件夹
+│   └── example.jpg       # 示例图片
+├── font/                 # 字体文件夹（初始化时下载）
+│   └── SIMKAI.TTF        # 楷体字体文件
+├── init.sh               # 初始化脚本（下载字体）
+├── .latexmkrc            # LaTeX 编译配置
+└── README.md             # 本说明文件
 ```
 
-### 重要规范
+## 专利申请技术交底书结构
 
-| 项目 | 说明 |
-|------|------|
-| `main.cls` | 模板核心文件，**必须保留**，定义了论文格式 |
-| `main.tex` | 论文主文件，**必须保留**，填写论文基本信息 |
-| `references.bib` | 参考文献数据库，**必须保留** |
-| `main.pdf` | 可放入仓库用于展示模板效果预览 |
-| `Fig/` | **所有图片素材统一放在此目录**进行管理 |
+根据标准格式，本模板包含以下章节：
 
----
+1. **发明名称** - 发明创造的名称
+2. **背景技术** - 描述现有技术及其缺点
+3. **发明创造所要解决的技术问题及发明目的** - 阐述要解决的技术问题
+4. **清楚完整的叙述发明创造的技术方案** - 详细描述技术实现方案
+5. **与现有技术相比的优点** - 说明本发明的有益效果
+6. **附图及说明** - 提供相关附图及其说明
 
-## 🚀 快速开始
+## 快速开始
 
-### 1. 安装 Tectonic
-
-本项目统一使用 [Tectonic](https://tectonic-typesetting.github.io/) 进行编译。
+### 1. 初始化（首次使用）
 
 ```bash
-# 使用 cargo 安装
-cargo install tectonic
-
-# 或使用包管理器
-# macOS
-brew install tectonic
-
-# Windows (Scoop)
-scoop install tectonic
+bash init.sh
 ```
 
-### 2. 安装字体
+此脚本会下载所需的楷体字体文件到 `font/` 目录。
 
-模板使用以下字体：
-
-**中文字体：**
-- SimSun (宋体) - 正文
-- SimHei (黑体) - 标题
-
-**英文字体：**
-- Times New Roman - 英文正文
-- Arial - 英文无衬线
-- Courier New - 英文等宽
-
-### 3. 编译文档
+### 2. 编译文档
 
 ```bash
-# 使用 tectonic 编译（自动处理依赖）
-tectonic main.tex
+# 使用 Tectonic（推荐）
+tectonic -X compile main.tex
+
+# 或使用 latexmk
+latexmk -pdf main.tex
 ```
 
----
+### 3. 查看结果
 
-## ✏️ 使用方法
+编译成功后，会生成 `main.pdf` 文件。
 
-### 修改论文信息
+## 修改内容
 
-在 `main.tex` 中填写论文基本信息：
+编辑 `main.tex` 文件，修改以下信息：
 
 ```latex
-\title{你的论文题目}
-\author{你的姓名}
-\university{XX大学}
-\college{XX学院}
-\major{XX专业}
-\advisor{XXX教授}
-\studentid{20XXXXXXXX}
+% 专利基本信息
+\newcommand{\techcontact}{唐时康}              % 技术联系人
+\newcommand{\techphone}{+86-13551098471}      % 技术联系电话
+\newcommand\techemail{tang@example.com}       % 电子邮件
+\newcommand{\patentname}{一种结合CNN迁移学习和SVDD的图像异常检测方法}  % 发明名称
 ```
 
-### 编写章节
+然后在各章节中填写具体内容。
 
-在 `chapters/` 目录下创建或编辑 `.tex` 文件：
+## 插入图片
 
-```latex
-\chapter{章节标题}
-\section{小节标题}
-这里是正文内容...
-```
-
-### 插入图片
-
-**所有图片请统一放入 `Fig/` 目录**，然后使用：
+将图片放入 `figture/` 目录，使用：
 
 ```latex
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{Fig/example}
-    \caption{图片标题}
-    \label{fig:example}
+    \includegraphics[width=0.9\textwidth]{figture/your-image.png}
+    \caption{图片说明}
+    \label{fig:label}
 \end{figure}
 ```
 
-### 添加参考文献
+## 字体说明
 
-在 `references.bib` 中添加文献条目，然后在正文中引用：
+- **正文**：宋体（SimSun）
+- **标题**：楷体（KaiTi）
+- **强调**：黑体（SimHei）
 
-```latex
-\cite{key}  % 引用文献
-```
+系统会自动检测楷体字体，优先使用系统安装的 `KaiTi` 或 `SimKai`，如果没有则尝试使用 `font/SIMKAI.TTF`。
 
----
+## 依赖
 
-## 📐 格式规范
+- Tectonic 或 TeX Live（含 XeLaTeX）
+- 系统字体：宋体、黑体、Times New Roman
+- 可选字体：楷体（可通过 init.sh 下载）
 
-| 项目 | 设置 |
-|------|------|
-| 纸张 | A4 (210mm × 297mm) |
-| 页边距 | 上下左右 2.5cm |
-| 正文字体 | 宋体 小四 (12pt) |
-| 行距 | 1.5倍 |
-| 章标题 | 黑体 小二 (18pt)，居中 |
-| 节标题 | 黑体 三号 (16pt) |
+## 许可证
 
----
+本模板仅供学习和研究使用。
 
-## 🛠️ 常用命令
+## 参考
 
-```bash
-# 编译
-tectonic main.tex
-
-# 清理辅助文件
-rm -f main.aux main.log main.out main.toc main.bbl main.blg
-```
-
----
-
-## 🌟 心河Paper平台支持
-
-本模板已针对 [**心河Paper平台**](https://paper.huimengxinhe.com) 进行优化：
-
-- ✅ 完美支持在线 LaTeX 预览
-- ✅ 符合心河Paper论文规范
-- ✅ 提供模板效果预览
-
----
-
-## 📚 依赖宏包
-
-模板已自动加载以下常用宏包：
-- `ctex` - 中文支持
-- `geometry` - 页面设置
-- `graphicx` - 图片插入
-- `amsmath` - 数学公式
-- `booktabs` - 专业表格
-- `hyperref` - 超链接
-- `natbib` - 参考文献
-
----
-
-## ⚠️ 注意事项
-
-1. **必须保留** `main.cls`、`main.tex`、`references.bib` 三个核心文件
-2. **图片统一存放**在 `Fig/` 目录下，便于管理
-3. 确保系统安装了所需的 Windows 中文字体
-4. 使用 XeLaTeX 编译以支持中文
-5. 修改章节后需要多次编译以更新交叉引用
-6. 添加新参考文献后需要运行 `bibtex`
-
----
-
-## 📖 参考资料
-
-- 《LaTeX入门》刘海洋
-- [CTeX 论坛](https://ctex.org)
-- [LaTeX Project](https://www.latex-project.org)
-
----
-
-## 📄 许可证
-
-本模板仅供学术交流使用，请根据所在学校的具体要求进行调整。
+- 格式参考：专利申请技术交底书标准格式
+- 基于：ctexbook 文档类

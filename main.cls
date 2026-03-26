@@ -81,10 +81,26 @@
 % ------------------------------------------------------------
 % 字体设置
 % ------------------------------------------------------------
-% 中文字体：宋体(正文)、黑体(标题)
+% 中文字体：宋体(正文)、楷体(标题)、黑体(强调)
 \setCJKmainfont{SimSun}[AutoFakeBold=true,AutoFakeSlant=true]     % 宋体 - 正文
-\setCJKsansfont{SimHei}[AutoFakeBold=true]                         % 黑体 - 标题
+\setCJKsansfont{SimHei}[AutoFakeBold=true]                         % 黑体 - 强调
 \setCJKmonofont{SimSun}                                             % 宋体 - 等宽备选
+
+% 楷体设置（用于专利交底书标题）
+\IfFontExistsTF{KaiTi}{
+    \newCJKfontfamily\kaiti{KaiTi}[AutoFakeBold=true,AutoFakeSlant=true]
+}{
+    \IfFontExistsTF{SimKai}{
+        \newCJKfontfamily\kaiti{SimKai}[AutoFakeBold=true,AutoFakeSlant=true]
+    }{
+        % 尝试使用本地字体文件
+        \IfFileExists{font/SIMKAI.TTF}{
+            \newCJKfontfamily\kaiti{font/SIMKAI.TTF}[AutoFakeBold=true,AutoFakeSlant=true]
+        }{
+            \newCJKfontfamily\kaiti{SimSun}[AutoFakeBold=true,AutoFakeSlant=true]
+        }
+    }
+}
 
 % 英文字体：Times New Roman
 \setmainfont{Times New Roman}
@@ -117,29 +133,29 @@
 \setstretch{1.5}    % 1.5倍行距
 
 % ------------------------------------------------------------
-% 章节标题格式设置
+% 章节标题格式设置（专利申请技术交底书格式）
 % ------------------------------------------------------------
 \ctexset{
     chapter = {
-        format = \centering\sffamily\xiaoer\bfseries,
-        name = {第,章},
-        number = \chinese{chapter},
-        beforeskip = 24pt,
-        afterskip = 18pt,
+        format = \kaiti\xiaoer\bfseries,
+        name = {},
+        number = \chinese{chapter}、,
+        beforeskip = 18pt,
+        afterskip = 12pt,
         pagestyle = fancy
     },
     section = {
-        format = \sffamily\sanhao\bfseries,
+        format = \kaiti\sanhao\bfseries,
         beforeskip = 12pt,
         afterskip = 6pt
     },
     subsection = {
-        format = \sffamily\sihao\bfseries,
+        format = \kaiti\sihao\bfseries,
         beforeskip = 6pt,
         afterskip = 6pt
     },
     subsubsection = {
-        format = \sffamily\xiaosi\bfseries,
+        format = \kaiti\xiaosi\bfseries,
         beforeskip = 6pt,
         afterskip = 6pt
     }
@@ -161,7 +177,7 @@
 % ------------------------------------------------------------
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[C]{\xiaowu 心河大学学位论文}
+\fancyhead[C]{\xiaowu 专利申请技术交底书}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0pt}
@@ -169,7 +185,7 @@
 % 章节首页页眉页脚
 \fancypagestyle{plain}{
     \fancyhf{}
-    \fancyhead[C]{\xiaowu 心河大学学位论文}
+    \fancyhead[C]{\xiaowu 专利申请技术交底书}
     \fancyfoot[C]{\thepage}
     \renewcommand{\headrulewidth}{0.4pt}
 }
@@ -201,16 +217,13 @@
 \captionsetup[bi-second]{bi-second}
 
 % ------------------------------------------------------------
-% 图表编号格式: 章-序号
+% 图表编号格式: 图1、图2顺序编号（不分章）
 % ------------------------------------------------------------
-\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
-\renewcommand{\thetable}{\thechapter-\arabic{table}}
-\renewcommand{\theequation}{\thechapter-\arabic{equation}}
-\makeatletter
-\@addtoreset{figure}{chapter}
-\@addtoreset{table}{chapter}
-\@addtoreset{equation}{chapter}
-\makeatother
+\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\thetable}{\arabic{table}}
+\renewcommand{\theequation}{\arabic{equation}}
+\captionsetup[figure]{name={图}}
+\captionsetup[table]{name={表}}
 
 % ------------------------------------------------------------
 % 列表环境设置
